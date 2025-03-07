@@ -6,10 +6,13 @@ import flet as ft
 def main(page: ft.Page):
     # 2º definir título para a página
     page.title = "Contador"
+    #definir tamanho da janela
+    page.window.width = 500
+    page.window.height = 900
     
     # definir o alinhamento dos componentes na página
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.MainAxisAlignment.CENTER
+    #page.horizontal_alignment = ft.MainAxisAlignment.CENTER
     
     # definir a cor de fundo da página
     page.bgcolor = "#A9B5DF"
@@ -19,7 +22,7 @@ def main(page: ft.Page):
         #valor inicial no textfield
         value="0",
         #comprimento do textfield
-        width=120,
+        width=300,
         #Posicionamento do textfield
         text_align=ft.TextAlign.CENTER,
         #texto em negritos
@@ -41,10 +44,6 @@ def main(page: ft.Page):
         border_radius=15,
         #cor do texto
         color=ft.colors.YELLOW,
-        #TEXTO INDICATIVO
-        counter_text="Maximo 10",
-        #texto para erros
-        error_text="Valor inválido",
         #filtro de entrada
         input_filter=ft.NumbersOnlyInputFilter(),
         #máximo de caracteres
@@ -53,12 +52,21 @@ def main(page: ft.Page):
     
     # FUNÇÃO PARA SUBTRAIR 1 DO VALOR ATUAL
     def sub(e):
-        numero.value = str(int(numero.value) - 1)
+        if int(numero.value) > 0:
+            numero.value = str(int(numero.value) - 1)
+            numero.error_text=None
+        else:
+            #texto para erros
+            numero.error_text="COMO VC QUER MENOS UM PRODUTO?"
         page.update()
     
     # FUNÇÃO PARA SOMAR 1 AO VALOR ATUAL
     def som(e):
-        numero.value = str(int(numero.value) + 1)
+        if int(numero.value) <10:
+            numero.value = str(int(numero.value) + 1)
+            numero.error_text=None
+        else:
+            numero.error_text="SÓ VAI TA PODENDO DEZ MEU CRIA"
         page.update()
     
     # 3º criar a área da página
@@ -70,9 +78,11 @@ def main(page: ft.Page):
                 ft.IconButton(icon=ft.icons.REMOVE_CIRCLE_OUTLINE, on_click=sub),
                 numero,
                 ft.IconButton(icon=ft.icons.ADD_CIRCLE_OUTLINE, on_click=som),
-            ]
+            ],
+            alignment=ft.MainAxisAlignment.CENTER,
         )
     )
+    
     
     page.update()
 
